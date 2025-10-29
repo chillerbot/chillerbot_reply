@@ -54,4 +54,5 @@ function(register_test test_name)
 endfunction()
 
 register_test("sample")
+register_test("greet")
 
