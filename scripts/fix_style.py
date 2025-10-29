@@ -75,6 +75,7 @@ def main():
 	p.add_argument("-n", "--dry-run", action="store_true", help="Don't fix, only warn")
 	args = p.parse_args()
 	filenames = filter_ignored(filter_cpp(recursive_file_list("src")))
+	filenames += filter_ignored(filter_cpp(recursive_file_list("include")))
 	if not args.dry_run:
 		reformat(filenames)
 	else:
