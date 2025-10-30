@@ -33,6 +33,7 @@ endif()
 # tools
 
 add_executable(chillerbot_reply_cli ${LIB_SOURCE_FILES} src/tools/chillerbot_reply_cli.cpp)
+target_include_directories(chillerbot_reply_cli PRIVATE src)
 target_link_libraries(chillerbot_reply_cli ddnet_base ${LINK_FLAGS_PLATFORM})
 
 # tests

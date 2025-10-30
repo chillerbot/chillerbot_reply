@@ -6,6 +6,8 @@ void ExpectReply(const char *pMessage, const char *pExpectedReply)
 {
 	CChillerBotReply Bot;
 	char aReply[512];
-	Bot.Reply(pMessage, aReply, sizeof(aReply));
+	CChillerBotReplyChatMessage Message;
+	Message.m_pMessage = pMessage;
+	Bot.Reply(&Message, aReply, sizeof(aReply));
 	EXPECT_STREQ(aReply, pExpectedReply);
 }
