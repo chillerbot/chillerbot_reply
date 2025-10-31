@@ -12,10 +12,16 @@ SET(LIB_SOURCE_FILES
 
 add_library(chillerbot_reply STATIC ${LIB_SOURCE_FILES})
 add_subdirectory(src/external/ddnet_base)
-target_link_libraries(chillerbot_reply PRIVATE ddnet_base)
 
 target_include_directories(chillerbot_reply PRIVATE src)
 include_directories(include)
+
+if(APPLE)
+	find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
+	set(LINK_FLAGS_PLATFORM ${LINK_FLAGS_PLATFORM} ${CORE_FOUNDATION_LIBRARY})
+endif()
+
+target_link_libraries(chillerbot_reply PRIVATE ddnet_base ${LINK_FLAGS_PLATFORM})
 
 if(TARGET_OS STREQUAL "windows")
     # definitions from ddnet
@@ -48,7 +54,7 @@ function(register_test test_name)
         src/test/${test_name}/*.h)
     set(test_target "test_${test_name}")
     add_executable(${test_target} ${TEST_SOURCE_FILES})
-    target_link_libraries(${test_target} chillerbot_reply ${TWBL_DEPS} ${LINK_FLAGS_PLATFORM})
+    target_link_libraries(${test_target} chillerbot_reply ${LINK_FLAGS_PLATFORM})
     target_include_directories(${test_target} PRIVATE src)
     # target_compile_options(${test_target} PRIVATE -Werror)
     add_test(NAME ${test_target}
