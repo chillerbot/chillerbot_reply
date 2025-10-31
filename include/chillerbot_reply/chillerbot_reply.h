@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ddnet/protocol.h>
+#include "ddnet/protocol.h"
 
 #include <cstddef>
 

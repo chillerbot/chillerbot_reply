@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 SET(LIB_SOURCE_FILES
     src/chillerbot_reply/chillerbot_reply.cpp
-    src/ddnet/protocol.h
 )
 
 add_library(chillerbot_reply STATIC ${LIB_SOURCE_FILES})
