@@ -34,9 +34,9 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	int NameLen = 0;
 
 	const char *pName = m_Context.m_aOwnTees[0].m_pName;
-	const char *pClan = m_Context.m_aOwnTees[0].m_pClan;
+	// const char *pClan = m_Context.m_aOwnTees[0].m_pClan;
 	const char *pDummyName = m_Context.m_aOwnTees[1].m_pName;
-	const char *pDummyClan = m_Context.m_aOwnTees[1].m_pClan;
+	// const char *pDummyClan = m_Context.m_aOwnTees[1].m_pClan;
 
 	if(LineShouldHighlight(pMsg->m_pMessage, pName))
 		NameLen = str_length(pName);
