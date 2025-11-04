@@ -1,10 +1,6 @@
 #pragma once
 
-#include "ddnet/protocol.h"
-
 #include <cstddef>
-
-using namespace chillerbot_ddnet;
 
 enum
 {
