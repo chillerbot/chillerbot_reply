@@ -50,14 +50,14 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 		return true;
 	}
 
-	if(!str_comp_nocase(pMsg->m_pMessage, "hellow"))
+	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
 	{
-		str_copy(pReplyBuf, "yellow", ReplyBufLen);
+		str_copy(pReplyBuf, "lab", ReplyBufLen);
 		return true;
 	}
-	if(str_find(pMsg->m_pMessage, "hellow"))
+	if(str_find(pMsg->m_pMessage, "lib"))
 	{
-		str_copy(pReplyBuf, "yellow xd", ReplyBufLen);
+		str_copy(pReplyBuf, "lab xd", ReplyBufLen);
 		return true;
 	}
 	return false;

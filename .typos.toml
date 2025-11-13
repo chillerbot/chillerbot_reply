@@ -17,7 +17,6 @@ extend-exclude = [
 
 [default]
 extend-ignore-re = [
-	'hellow',
 	'lod',
 	'LOD',
 	'Lod',

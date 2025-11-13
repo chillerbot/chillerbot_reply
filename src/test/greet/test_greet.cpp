@@ -7,7 +7,7 @@ static void TestBasic()
 {
 	InitTest("hello");
 
-	ExpectReply("hellow", "yellow");
+	ExpectReply("lib", "lab");
 }
 
 int main()
