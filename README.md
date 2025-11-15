@@ -1,4 +1,4 @@
-# chillerbot-reply
+# chillerbot_reply
 
 Library to automate chatting in teeworlds.
 Replies to common chat messages with useful context aware text.
