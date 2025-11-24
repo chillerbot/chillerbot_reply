@@ -2,6 +2,8 @@
 #include <ddnet_base/base/str.h>
 #include <ddnet_base/base/system.h>
 
+using namespace ddnet_base;
+
 CChillerBotReplyContext::CChillerBotReplyContext()
 {
 	Reset();
