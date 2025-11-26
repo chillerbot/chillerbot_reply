@@ -15,14 +15,14 @@ add_subdirectory(src/external/ddnet_base)
 target_include_directories(chillerbot_reply PRIVATE src)
 include_directories(include)
 
+set(PLATFORM_LIBS)
 if(APPLE)
 	find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
-	set(LINK_FLAGS_PLATFORM ${LINK_FLAGS_PLATFORM} ${CORE_FOUNDATION_LIBRARY})
-endif()
+	list(APPEND PLATFORM_LIBS ${CORE_FOUNDATION_LIBRARY}) # macOS CFLocaleCopyCurrent()
+elseif(TARGET_OS STREQUAL "windows")
+	list(APPEND PLATFORM_LIBS ws2_32.lib) # Windows sockets
+	list(APPEND PLATFORM_LIBS version) # Windows GetFileVersionInfoSizeW()
 
-target_link_libraries(chillerbot_reply PRIVATE ddnet_base ${LINK_FLAGS_PLATFORM})
-
-if(TARGET_OS STREQUAL "windows")
     # definitions from ddnet
     # See https://learn.microsoft.com/en-us/windows/win32/winprog/using-the-windows-headers
     add_compile_definitions(chillerbot_reply PRIVATE NOMINMAX) # windows.h shouldn't define min/max macros
@@ -35,11 +35,13 @@ if(TARGET_OS STREQUAL "windows")
     add_compile_definitions(chillerbot_reply PRIVATE _UNICODE) # C-runtime
 endif()
 
+target_link_libraries(chillerbot_reply PRIVATE ddnet_base ${PLATFORM_LIBS})
+
 # tools
 
 add_executable(chillerbot_reply_cli ${LIB_SOURCE_FILES} src/tools/chillerbot_reply_cli.cpp)
 target_include_directories(chillerbot_reply_cli PRIVATE src)
-target_link_libraries(chillerbot_reply_cli ddnet_base ${LINK_FLAGS_PLATFORM})
+target_link_libraries(chillerbot_reply_cli ddnet_base ${PLATFORM_LIBS})
 
 # tests
 
@@ -53,7 +55,7 @@ function(register_test test_name)
         src/test/${test_name}/*.h)
     set(test_target "test_${test_name}")
     add_executable(${test_target} ${TEST_SOURCE_FILES})
-    target_link_libraries(${test_target} chillerbot_reply ${LINK_FLAGS_PLATFORM})
+    target_link_libraries(${test_target} chillerbot_reply ${PLATFORM_LIBS})
     target_include_directories(${test_target} PRIVATE src)
     # target_compile_options(${test_target} PRIVATE -Werror)
     add_test(NAME ${test_target}
