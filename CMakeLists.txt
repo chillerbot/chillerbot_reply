@@ -9,7 +9,7 @@ SET(LIB_SOURCE_FILES
     src/chillerbot_reply/chillerbot_reply.cpp
 )
 
-add_library(chillerbot_reply STATIC ${LIB_SOURCE_FILES})
+add_library(chillerbot_reply ${LIB_SOURCE_FILES})
 add_subdirectory(src/external/ddnet_base)
 
 target_include_directories(chillerbot_reply PRIVATE src)
