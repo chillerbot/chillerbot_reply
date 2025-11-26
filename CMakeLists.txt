@@ -25,14 +25,14 @@ target_link_libraries(chillerbot_reply PRIVATE ddnet_base ${LINK_FLAGS_PLATFORM}
 if(TARGET_OS STREQUAL "windows")
     # definitions from ddnet
     # See https://learn.microsoft.com/en-us/windows/win32/winprog/using-the-windows-headers
-    add_compile_definitions(${target} PRIVATE NOMINMAX) # windows.h shouldn't define min/max macros
-    add_compile_definitions(${target} PRIVATE WIN32_LEAN_AND_MEAN) # windows.h shouldn't define the name IStorage
+    add_compile_definitions(chillerbot_reply PRIVATE NOMINMAX) # windows.h shouldn't define min/max macros
+    add_compile_definitions(chillerbot_reply PRIVATE WIN32_LEAN_AND_MEAN) # windows.h shouldn't define the name IStorage
     # 0x0501 (Windows XP) is required for mingw to get getaddrinfo to work
     # 0x0600 (Windows Vista) is required to use RegGetValueW and RegDeleteTreeW
-    add_compile_definitions(${target} PRIVATE NTDDI_VERSION=0x06000000) # Minimum OS version (new macro, since Vista)
-    add_compile_definitions(${target} PRIVATE _WIN32_WINNT=0x0600) # Minimum OS version (old macro, both must be defined)
-    add_compile_definitions(${target} PRIVATE UNICODE) # Windows headers
-    add_compile_definitions(${target} PRIVATE _UNICODE) # C-runtime
+    add_compile_definitions(chillerbot_reply PRIVATE NTDDI_VERSION=0x06000000) # Minimum OS version (new macro, since Vista)
+    add_compile_definitions(chillerbot_reply PRIVATE _WIN32_WINNT=0x0600) # Minimum OS version (old macro, both must be defined)
+    add_compile_definitions(chillerbot_reply PRIVATE UNICODE) # Windows headers
+    add_compile_definitions(chillerbot_reply PRIVATE _UNICODE) # C-runtime
 endif()
 
 # tools
