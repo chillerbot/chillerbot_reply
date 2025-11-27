@@ -36,7 +36,13 @@ elseif(TARGET_OS STREQUAL "windows")
 
     if(MSVC)
         # https://github.com/chillerbot/chillerbot_reply/issues/2
-        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        if(CMAKE_BUILD_TYPE MATCHES Debug)
+            set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
+            message(STATUS "MSVC: Configuring for static debug runtime (/MTd).")
+        else() # Release, RelWithDebInfo, MinSizeRel
+            set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+            message(STATUS "MSVC: Configuring for static release runtime (/MT).")
+        endif()
     endif()
 endif()
 
