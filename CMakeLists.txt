@@ -15,6 +15,7 @@ add_subdirectory(src/external/ddnet_base)
 target_include_directories(chillerbot_reply PRIVATE src)
 include_directories(include)
 
+set(DBG $<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>)
 set(PLATFORM_LIBS)
 if(APPLE)
 	find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
@@ -39,7 +40,6 @@ elseif(TARGET_OS STREQUAL "windows")
         # copied from chillerbot-ux
         # https://github.com/chillerbot/chillerbot-ux/blob/4d2c4173541a1c8a74c9f1fb2c83afbd967815c0/CMakeLists.txt#L812
         # has to be kept in sync
-        set(DBG $<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>)
         set_property(TARGET chillerbot_reply PROPERTY MSVC_RUNTIME_LIBRARY MultiThreaded$<${DBG}:Debug>) # Use static CRT
     endif()
 endif()
@@ -66,6 +66,12 @@ function(register_test test_name)
     add_executable(${test_target} ${TEST_SOURCE_FILES})
     target_link_libraries(${test_target} chillerbot_reply ${PLATFORM_LIBS})
     target_include_directories(${test_target} PRIVATE src)
+
+    if(MSVC)
+        # https://github.com/chillerbot/chillerbot_reply/issues/2
+        set_property(TARGET ${test_target} PROPERTY MSVC_RUNTIME_LIBRARY MultiThreaded$<${DBG}:Debug>) # Use static CRT
+    endif()
+
     # target_compile_options(${test_target} PRIVATE -Werror)
     add_test(NAME ${test_target}
              COMMAND ${test_target})
