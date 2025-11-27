@@ -33,6 +33,11 @@ elseif(TARGET_OS STREQUAL "windows")
     add_compile_definitions(chillerbot_reply PRIVATE _WIN32_WINNT=0x0600) # Minimum OS version (old macro, both must be defined)
     add_compile_definitions(chillerbot_reply PRIVATE UNICODE) # Windows headers
     add_compile_definitions(chillerbot_reply PRIVATE _UNICODE) # C-runtime
+
+    if(MSVC)
+        # https://github.com/chillerbot/chillerbot_reply/issues/2
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif()
 endif()
 
 target_link_libraries(chillerbot_reply PRIVATE ddnet_base ${PLATFORM_LIBS})
