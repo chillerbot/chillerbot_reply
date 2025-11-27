@@ -36,13 +36,10 @@ elseif(TARGET_OS STREQUAL "windows")
 
     if(MSVC)
         # https://github.com/chillerbot/chillerbot_reply/issues/2
-        if(CMAKE_BUILD_TYPE MATCHES Debug)
-            set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
-            message(STATUS "MSVC: Configuring for static debug runtime (/MTd).")
-        else() # Release, RelWithDebInfo, MinSizeRel
-            set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
-            message(STATUS "MSVC: Configuring for static release runtime (/MT).")
-        endif()
+        # copied from chillerbot-ux
+        # https://github.com/chillerbot/chillerbot-ux/blob/4d2c4173541a1c8a74c9f1fb2c83afbd967815c0/CMakeLists.txt#L812
+        # has to be kept in sync
+        set_property(TARGET chillerbot_reply PROPERTY MSVC_RUNTIME_LIBRARY MultiThreaded$<${DBG}:Debug>) # Use static CRT
     endif()
 endif()
 
