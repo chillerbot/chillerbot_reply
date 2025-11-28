@@ -18,11 +18,11 @@ include_directories(include)
 set(DBG $<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>)
 set(PLATFORM_LIBS)
 if(APPLE)
-	find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
-	list(APPEND PLATFORM_LIBS ${CORE_FOUNDATION_LIBRARY}) # macOS CFLocaleCopyCurrent()
+    find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
+    list(APPEND PLATFORM_LIBS ${CORE_FOUNDATION_LIBRARY}) # macOS CFLocaleCopyCurrent()
 elseif(TARGET_OS STREQUAL "windows")
-	list(APPEND PLATFORM_LIBS ws2_32.lib) # Windows sockets
-	list(APPEND PLATFORM_LIBS version) # Windows GetFileVersionInfoSizeW()
+    list(APPEND PLATFORM_LIBS ws2_32.lib) # Windows sockets
+    list(APPEND PLATFORM_LIBS version) # Windows GetFileVersionInfoSizeW()
 
     # definitions from ddnet
     # See https://learn.microsoft.com/en-us/windows/win32/winprog/using-the-windows-headers
