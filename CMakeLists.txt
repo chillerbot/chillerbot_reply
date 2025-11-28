@@ -64,7 +64,7 @@ function(register_test test_name)
         src/test/${test_name}/*.h)
     set(test_target "test_${test_name}")
     add_executable(${test_target} ${TEST_SOURCE_FILES})
-    target_link_libraries(${test_target} chillerbot_reply ${PLATFORM_LIBS})
+    target_link_libraries(${test_target} ddnet_base chillerbot_reply ${PLATFORM_LIBS})
     target_include_directories(${test_target} PRIVATE src)
     # target_compile_options(${test_target} PRIVATE -Werror)
     add_test(NAME ${test_target}
