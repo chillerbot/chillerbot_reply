@@ -41,6 +41,7 @@ elseif(WIN32)
         # https://github.com/chillerbot/chillerbot-ux/blob/4d2c4173541a1c8a74c9f1fb2c83afbd967815c0/CMakeLists.txt#L812
         # has to be kept in sync
         set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded$<${DBG}:Debug>) # Use static CRT
+        set_property(TARGET chillerbot_reply PROPERTY MSVC_RUNTIME_LIBRARY MultiThreaded$<${DBG}:Debug>)
     endif()
 endif()
 
