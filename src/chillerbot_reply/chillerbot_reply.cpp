@@ -1,6 +1,5 @@
 #include <chillerbot_reply/chillerbot_reply.h>
 #include <ddnet_base/base/str.h>
-#include <ddnet_base/base/system.h>
 
 using namespace ddnet_base;
 
