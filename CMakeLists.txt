@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 SET(LIB_SOURCE_FILES
+    src/chillerbot_reply/clan.cpp
     src/chillerbot_reply/chillerbot_reply.cpp
 )
 
