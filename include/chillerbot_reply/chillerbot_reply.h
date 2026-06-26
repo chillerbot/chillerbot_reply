@@ -41,7 +41,17 @@ public:
 
 class CChillerBotReply
 {
+	const char *m_pMessage = "";
+	const char *m_pMessageAuthor = "";
+	char *m_pReplyBuf = nullptr;
+	size_t m_ReplyBufLen = 0;
+
+	void WriteReplyBuf(const char *pMessage);
+	void WriteReplyBufWithPing(const char *pMessage);
+
 	bool LineShouldHighlight(const char *pLine, const char *pName);
+
+	bool CanIJoinYourClan();
 
 public:
 	CChillerBotReplyContext m_Context;

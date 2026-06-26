@@ -1,4 +1,5 @@
 #include <chillerbot_reply/chillerbot_reply.h>
+#include <chillerbot_reply/clan.h>
 #include <ddnet_base/base/str.h>
 
 using namespace ddnet_base;
@@ -12,6 +13,16 @@ void CChillerBotReplyContext::Reset()
 {
 	m_ActiveTee = 0;
 	m_IsDummyConnected = false;
+}
+
+void CChillerBotReply::WriteReplyBuf(const char *pMessage)
+{
+	str_copy(m_pReplyBuf, pMessage, m_ReplyBufLen);
+}
+
+void CChillerBotReply::WriteReplyBufWithPing(const char *pMessage)
+{
+	str_format(m_pReplyBuf, m_ReplyBufLen, "%s %s", m_pMessageAuthor, pMessage);
 }
 
 bool CChillerBotReply::LineShouldHighlight(const char *pLine, const char *pName)
@@ -29,8 +40,38 @@ bool CChillerBotReply::LineShouldHighlight(const char *pLine, const char *pName)
 	return false;
 }
 
+bool CChillerBotReply::CanIJoinYourClan()
+{
+	if(str_find_nocase(m_pMessage, "clan") &&
+		(str_find_nocase(m_pMessage, "enter") ||
+			str_find_nocase(m_pMessage, "join") ||
+			str_find_nocase(m_pMessage, "let me") ||
+			str_find_nocase(m_pMessage, "beitreten") ||
+			str_find_nocase(m_pMessage, " in ") ||
+			str_find_nocase(m_pMessage, "can i") ||
+			str_find_nocase(m_pMessage, "can me") ||
+			str_find_nocase(m_pMessage, "me you") ||
+			str_find_nocase(m_pMessage, "me is") ||
+			str_find_nocase(m_pMessage, "into")))
+	{
+		const char *pClan = m_Context.m_aOwnTees[0].m_pClan;
+		const char *pDummyClan = m_Context.m_aOwnTees[1].m_pClan;
+		if(ChillerBotReply::HowToJoinClan(pClan, m_pReplyBuf, m_ReplyBufLen) ||
+			(m_Context.m_IsDummyConnected && ChillerBotReply::HowToJoinClan(pDummyClan, m_pReplyBuf, m_ReplyBufLen)))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pReplyBuf, size_t ReplyBufLen)
 {
+	m_pMessage = pMsg->m_pMessage;
+	m_pMessageAuthor = pMsg->m_pAuthor;
+	m_pReplyBuf = pReplyBuf;
+	m_ReplyBufLen = ReplyBufLen;
+
 	int MsgLen = str_length(pMsg->m_pMessage);
 	int NameLen = 0;
 
@@ -51,14 +92,17 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 		return true;
 	}
 
+	if(CanIJoinYourClan())
+		return true;
+
 	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
 	{
-		str_copy(pReplyBuf, "lab", ReplyBufLen);
+		WriteReplyBuf("lab");
 		return true;
 	}
 	if(str_find(pMsg->m_pMessage, "lib"))
 	{
-		str_copy(pReplyBuf, "lab xd", ReplyBufLen);
+		WriteReplyBuf("lab xd");
 		return true;
 	}
 	return false;

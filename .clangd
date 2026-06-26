@@ -1,2 +1,5 @@
 Style:
-  AngledHeaders: ["twbl/.*", "bots/.*"]
+  AngledHeaders: [
+    "chillerbot_reply/.*",
+    "ddnet_base/.*"
+  ]

@@ -8,9 +8,6 @@ namespace ChillerBotReply
 
 	bool HowToJoinClan(const char *pClan, char *pResponse, int SizeOfResponse)
 	{
-		if(!pResponse)
-			return false;
-		pResponse[0] = '\0';
 		if(!str_comp(pClan, "Chilli.*"))
 			str_copy(pResponse, "Chilli.* is a fun clan everybody that uses the skin greensward can join", SizeOfResponse);
 		else if(!str_comp(pClan, "|*KoG*|"))
