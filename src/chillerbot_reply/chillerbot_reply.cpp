@@ -56,9 +56,11 @@ bool CChillerBotReply::CanIJoinYourClan()
 	{
 		const char *pClan = m_Context.m_aOwnTees[0].m_pClan;
 		const char *pDummyClan = m_Context.m_aOwnTees[1].m_pClan;
-		if(ChillerBotReply::HowToJoinClan(pClan, m_pReplyBuf, m_ReplyBufLen) ||
-			(m_Context.m_IsDummyConnected && ChillerBotReply::HowToJoinClan(pDummyClan, m_pReplyBuf, m_ReplyBufLen)))
+		char aResponse[512];
+		if(ChillerBotReply::HowToJoinClan(pClan, aResponse, sizeof(aResponse)) ||
+			(m_Context.m_IsDummyConnected && ChillerBotReply::HowToJoinClan(pDummyClan, aResponse, sizeof(aResponse))))
 		{
+			WriteReplyBufWithPing(aResponse);
 			return true;
 		}
 	}
