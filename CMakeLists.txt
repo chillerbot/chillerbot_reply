@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED On)
 SET(LIB_SOURCE_FILES
     src/chillerbot_reply/clan.cpp
     src/chillerbot_reply/chillerbot_reply.cpp
+    src/chillerbot_reply/langparser.cpp
 )
 
 add_library(chillerbot_reply ${LIB_SOURCE_FILES})
