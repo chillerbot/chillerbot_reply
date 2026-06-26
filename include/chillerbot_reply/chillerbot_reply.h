@@ -29,6 +29,9 @@ public:
 	int m_ActiveTee = 0;
 
 	bool m_IsDummyConnected = false;
+
+	void *m_pUser = nullptr;
+	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
 };
 
 class CChillerBotReplyChatMessage

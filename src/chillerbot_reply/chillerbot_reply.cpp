@@ -65,6 +65,27 @@ bool CChillerBotReply::CanIJoinYourClan()
 	return false;
 }
 
+/*
+bool CChillerBotReply::ListClanWars()
+{
+if((str_find_nocase(m_pMessage, "clan") || str_find_nocase(m_pMessage, "klan")) &&
+	(LangParser().IsQuestionWhoWhichWhat(m_pMessage) || str_find(m_pMessage, "?")))
+{
+	if(str_find_nocase(m_pMessage, "war") || str_find_nocase(m_pMessage, "enemy") || str_find_nocase(m_pMessage, "kill") || str_find_nocase(m_pMessage, "against") || str_find_nocase(m_pMessage, "bad"))
+	{
+		char aClans[256];
+		GameClient()->m_WarList.GetWarClansStr(aClans, sizeof(aClans));
+		if(aClans[0])
+			str_format(m_pResponse, m_SizeOfResponse, "%s I war those clans: %s", m_pMessageAuthor, aClans);
+		else
+			str_format(m_pResponse, m_SizeOfResponse, "%s I currently do not war any clans.", m_pMessageAuthor);
+		return true;
+	}
+}
+return false;
+}
+*/
+
 bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pReplyBuf, size_t ReplyBufLen)
 {
 	m_pMessage = pMsg->m_pMessage;
