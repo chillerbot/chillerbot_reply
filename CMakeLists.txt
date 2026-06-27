@@ -16,6 +16,7 @@ SET(LIB_SOURCE_FILES
     src/chillerbot_reply/where.cpp
     src/chillerbot_reply/smalltalk.cpp
     src/chillerbot_reply/operating_system.cpp
+    src/chillerbot_reply/english_please.cpp
     src/polynet/protocol.h
     src/polynet/math.h
     src/polynet/vmath.h
@@ -90,4 +91,5 @@ register_test("clan")
 register_test("war")
 register_test("langparser")
 register_test("operating_system")
+register_test("chat")
 

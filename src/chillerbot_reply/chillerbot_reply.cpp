@@ -643,6 +643,9 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 		}
 	}
 
+	if(WhatOs())
+		return true;
+
 	// fake?
 	if(str_find_nocase(m_pMessage, "fake?") ||
 		str_find_nocase(m_pMessage, "you fake") ||
@@ -729,6 +732,10 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 		WriteReplyBufFormat("%s no u", m_pMessageAuthor);
 		return true;
 	}
+
+	// got pinged in non english language
+	if(EnglishPlease())
+		return true;
 
 	return false;
 }

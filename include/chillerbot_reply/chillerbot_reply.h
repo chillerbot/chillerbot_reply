@@ -209,6 +209,10 @@ private:
 	// operating_system.cpp
 	bool WhatOs();
 
+	// english_please.cpp
+	bool EnglishPlease();
+	bool NoRussian();
+
 public:
 	// returns true when it found a reply to `pMsg`
 	// and fills the reply into `pReplyBuf`
