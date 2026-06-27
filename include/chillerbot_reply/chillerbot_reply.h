@@ -51,6 +51,7 @@ class CChillerBotReply
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);
+	[[gnu::format(printf, 2, 3)]] void WriteReplyBufFormat(const char *pFormat, ...);
 
 	bool LineShouldHighlight(const char *pLine, const char *pName);
 

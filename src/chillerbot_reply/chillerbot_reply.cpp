@@ -27,7 +27,13 @@ void CChillerBotReply::WriteReplyBufWithPing(const char *pMessage)
 	str_format(m_pReplyBuf, m_ReplyBufLen, "%s %s", m_pMessageAuthor, pMessage);
 }
 
-// TODO: add WriteRelyFormat
+void CChillerBotReply::WriteReplyBufFormat(const char *pFormat, ...)
+{
+	va_list Args;
+	va_start(Args, pFormat);
+	str_format_v(m_pReplyBuf, m_ReplyBufLen, pFormat, Args);
+	va_end(Args);
+}
 
 bool CChillerBotReply::LineShouldHighlight(const char *pLine, const char *pName)
 {
@@ -81,9 +87,9 @@ bool CChillerBotReply::ListClanWars()
 			char aClans[256];
 			m_Context.m_pfnGetWarClansStr(aClans, sizeof(aClans), m_Context.m_pUser);
 			if(aClans[0])
-				str_format(m_pReplyBuf, m_ReplyBufLen, "%s I war those clans: %s", m_pMessageAuthor, aClans);
+				WriteReplyBufFormat("%s I war those clans: %s", m_pMessageAuthor, aClans);
 			else
-				str_format(m_pReplyBuf, m_ReplyBufLen, "%s I currently do not war any clans.", m_pMessageAuthor);
+				WriteReplyBufFormat("%s I currently do not war any clans.", m_pMessageAuthor);
 			return true;
 		}
 	}
