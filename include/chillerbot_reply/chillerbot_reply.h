@@ -32,6 +32,13 @@ public:
 
 	void *m_pUser = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
+	bool (*m_pfnIsWar)(const char *pName, const char *pClan, void *pUser) = nullptr;
+	bool (*m_pfnIsWarlist)(const char *pName, void *pUser) = nullptr;
+	bool (*m_pfnIsTeamlist)(const char *pName, void *pUser) = nullptr;
+	bool (*m_pfnIsTraitorlist)(const char *pName, void *pUser) = nullptr;
+	bool (*m_pfnIsWarClanlist)(const char *pClan, void *pUser) = nullptr;
+	bool (*m_pfnIsTeamClanlist)(const char *pClan, void *pUser) = nullptr;
+	bool (*m_pfnIsWarClanmate)(const char *pClan, void *pUser) = nullptr;
 };
 
 class CChillerBotReplyChatMessage
