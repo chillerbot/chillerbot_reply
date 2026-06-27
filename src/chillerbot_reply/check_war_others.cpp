@@ -96,6 +96,8 @@ bool CChillerBotReply::WhyWar(const char *pVictim, bool IsCheck)
 	{
 		const char *pLoopName = m_Context.m_pfnGetClientName(i, m_Context.m_pUser);
 		const char *pLoopClan = m_Context.m_pfnGetClientName(i, m_Context.m_pUser);
+		if(pLoopName[0] == '\0')
+			continue;
 		if(str_comp(pLoopName, aVictim))
 			continue;
 

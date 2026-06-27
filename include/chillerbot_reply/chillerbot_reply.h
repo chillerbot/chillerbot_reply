@@ -53,6 +53,7 @@ class CChillerBotReplyChatMessage
 public:
 	const char *m_pMessage = "";
 	const char *m_pAuthor = "";
+	const char *m_pAuthorClan = "";
 	int m_Team = 0;
 };
 
@@ -79,6 +80,7 @@ class CChillerBotReply
 {
 	const char *m_pMessage = "";
 	const char *m_pMessageAuthor = "";
+	const char *m_pMessageAuthorClan = "";
 	char *m_pReplyBuf = nullptr;
 	size_t m_ReplyBufLen = 0;
 
@@ -100,8 +102,10 @@ class CChillerBotReply
 	bool IsWarName();
 
 	// check_war_others.cpp
-
 	bool WhyWar(const char *pVictim, bool IsCheck = false);
+
+	// check_war_self.cpp
+	bool WhyDoYouKillMe(int NameLen, int MsgLen);
 
 public:
 	CChillerBotReplyContext m_Context;

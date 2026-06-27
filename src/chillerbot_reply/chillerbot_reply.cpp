@@ -301,6 +301,7 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 {
 	m_pMessage = pMsg->m_pMessage;
 	m_pMessageAuthor = pMsg->m_pAuthor;
+	m_pMessageAuthorClan = pMsg->m_pAuthorClan;
 	m_pReplyBuf = pReplyBuf;
 	m_ReplyBufLen = ReplyBufLen;
 
@@ -330,6 +331,9 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 		return true;
 	// check war for others "is war name?"
 	if(IsWarName())
+		return true;
+	// why? (check war for self)
+	if(WhyDoYouKillMe(NameLen, MsgLen))
 		return true;
 
 	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
