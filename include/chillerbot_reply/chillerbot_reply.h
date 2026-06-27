@@ -46,6 +46,8 @@ public:
 	bool (*m_pfnIsTeamClanlist)(const char *pClan, void *pUser) = nullptr;
 	bool (*m_pfnIsWarClanmate)(const char *pClan, void *pUser) = nullptr;
 	bool (*m_pfnIsWarClanmateId)(int ClientId, void *pUser) = nullptr;
+	int (*m_pfnNumEnemies)(void *pUser) = nullptr;
+	int (*m_pfnNumTeam)(void *pUser) = nullptr;
 };
 
 class CChillerBotReplyChatMessage
@@ -74,6 +76,8 @@ public:
 	bool IsTeamClanlist(const char *pClan);
 	bool IsWarClanmate(const char *pClan);
 	bool IsWarClanmate(int ClientId);
+	int NumEnemies();
+	int NumTeam();
 };
 
 class CChillerBotReply
@@ -100,6 +104,9 @@ class CChillerBotReply
 	bool CanIJoinYourClan();
 	bool ListClanWars();
 	bool IsWarName();
+
+	// list_wars.cpp
+	bool ListWars();
 
 	// check_war_others.cpp
 	bool WhyWar(const char *pVictim, bool IsCheck = false);

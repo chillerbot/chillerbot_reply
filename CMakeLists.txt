@@ -12,6 +12,7 @@ SET(LIB_SOURCE_FILES
     src/chillerbot_reply/check_war_self.cpp
     src/chillerbot_reply/langparser.cpp
     src/chillerbot_reply/text_helper.cpp
+    src/chillerbot_reply/list_wars.cpp
     src/polynet/protocol.h
 )
 

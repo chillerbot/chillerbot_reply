@@ -62,6 +62,16 @@ bool CWarListWrapper::IsWarClanmate(int ClientId)
 	return m_pContext->m_pfnIsWarClanmateId(ClientId, m_pContext->m_pUser);
 }
 
+int CWarListWrapper::NumEnemies()
+{
+	return m_pContext->m_pfnNumEnemies(m_pContext->m_pUser);
+}
+
+int CWarListWrapper::NumTeam()
+{
+	return m_pContext->m_pfnNumTeam(m_pContext->m_pUser);
+}
+
 CChillerBotReplyContext::CChillerBotReplyContext()
 {
 	Reset();
@@ -338,6 +348,9 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	// still check war for others but now different order
 	// also cover "name is war?" in addition to "is war name?"
 	if(NameIsWar())
+		return true;
+	// check all wars "who is on your warlist?"
+	if(ListWars())
 		return true;
 
 	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
