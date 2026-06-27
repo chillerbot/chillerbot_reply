@@ -10,19 +10,19 @@ using namespace polynet;
 
 bool CChillerBotReply::Where()
 {
-	// TODO: dont get current dummy but the pinged dummy, but if it differs the reply chat message will be confusing??
-	//       if that is done it has to say "my dummy xx is at pos yy"
-	if(!Pos().has_value())
-	{
-		WriteReplyBufFormat("%s no idea. Where are you?", m_pMessageAuthor);
-		return true;
-	}
-	vec2 Self = Pos().value();
-
 	if(str_find_nocase(m_pMessage, "where are you") || str_find_nocase(m_pMessage, "where r u") || str_find_nocase(m_pMessage, "where r yo") ||
 		str_find_nocase(m_pMessage, "where u") ||
 		str_find_nocase(m_pMessage, "wo bist"))
 	{
+		// TODO: dont get current dummy but the pinged dummy, but if it differs the reply chat message will be confusing??
+		//       if that is done it has to say "my dummy xx is at pos yy"
+		if(!Pos().has_value())
+		{
+			WriteReplyBufFormat("%s no idea. Where are you?", m_pMessageAuthor);
+			return true;
+		}
+		vec2 Self = Pos().value();
+
 		for(int i = 0; i < MAX_CLIENTS; i++)
 		{
 			CChillerBotReplyTee Client = GetClient(i);
