@@ -54,6 +54,13 @@ public:
 	bool (*m_pfnIsWarClanmateId)(int ClientId, void *pUser) = nullptr;
 	int (*m_pfnNumEnemies)(void *pUser) = nullptr;
 	int (*m_pfnNumTeam)(void *pUser) = nullptr;
+
+	bool (*m_pfnIsStart)(float PrevX, float PrevY, float PosX, float PosY, void *pUser) = nullptr;
+	bool (*m_pfnIsFinish)(float Pos1X, float Pos1Y, float Pos2X, float Pos2Y, void *pUser) = nullptr;
+	bool (*m_pfnIsNearFinish)(float PosX, float PosY, int RadiusInTiles, void *pUser) = nullptr;
+	bool (*m_pfnIsNearStart)(float PosX, float PosY, int RadiusInTiles, void *pUser) = nullptr;
+	bool (*m_pfnIsClusterRangeFinish)(float PosX, float PosY, int RadiusInTiles, void *pUser) = nullptr;
+	bool (*m_pfnIsClusterRangeStart)(float PosX, float PosY, int RadiusInTiles, void *pUser) = nullptr;
 };
 
 class CChillerBotReplyChatMessage
@@ -86,6 +93,21 @@ public:
 	int NumTeam();
 };
 
+class CRaceHelperWrapper
+{
+	const CChillerBotReplyContext *m_pContext = nullptr;
+
+public:
+	void OnInit(const CChillerBotReplyContext *pContext);
+
+	bool IsStart(float PrevX, float PrevY, float PosX, float PosY);
+	bool IsFinish(float Pos1X, float Pos1Y, float Pos2X, float Pos2Y);
+	bool IsNearFinish(float PosX, float PosY, int RadiusInTiles);
+	bool IsNearStart(float PosX, float PosY, int RadiusInTiles);
+	bool IsClusterRangeFinish(float PosX, float PosY, int RadiusInTiles);
+	bool IsClusterRangeStart(float PosX, float PosY, int RadiusInTiles);
+};
+
 class CChillerBotReply
 {
 	const char *m_pMessage = "";
@@ -96,6 +118,9 @@ class CChillerBotReply
 
 	CWarListWrapper m_WarList;
 	CWarListWrapper &WarList() { return m_WarList; }
+
+	CRaceHelperWrapper m_RaceHelper;
+	CRaceHelperWrapper &RaceHelper() { return m_RaceHelper; }
 
 	const char *Name();
 	const char *DummyName();

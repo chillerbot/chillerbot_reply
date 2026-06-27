@@ -72,6 +72,41 @@ int CWarListWrapper::NumTeam()
 	return m_pContext->m_pfnNumTeam(m_pContext->m_pUser);
 }
 
+void CRaceHelperWrapper::OnInit(const CChillerBotReplyContext *pContext)
+{
+	m_pContext = pContext;
+}
+
+bool CRaceHelperWrapper::IsStart(float PrevX, float PrevY, float PosX, float PosY)
+{
+	return m_pContext->m_pfnIsStart(PrevX, PrevY, PosX, PosY, m_pContext->m_pUser);
+}
+
+bool CRaceHelperWrapper::IsFinish(float Pos1X, float Pos1Y, float Pos2X, float Pos2Y)
+{
+	return m_pContext->m_pfnIsFinish(Pos1X, Pos1Y, Pos2X, Pos2Y, m_pContext->m_pUser);
+}
+
+bool CRaceHelperWrapper::IsNearFinish(float PosX, float PosY, int RadiusInTiles)
+{
+	return m_pContext->m_pfnIsNearFinish(PosX, PosY, RadiusInTiles, m_pContext->m_pUser);
+}
+
+bool CRaceHelperWrapper::IsNearStart(float PosX, float PosY, int RadiusInTiles)
+{
+	return m_pContext->m_pfnIsNearStart(PosX, PosY, RadiusInTiles, m_pContext->m_pUser);
+}
+
+bool CRaceHelperWrapper::IsClusterRangeFinish(float PosX, float PosY, int RadiusInTiles)
+{
+	return m_pContext->m_pfnIsClusterRangeFinish(PosX, PosY, RadiusInTiles, m_pContext->m_pUser);
+}
+
+bool CRaceHelperWrapper::IsClusterRangeStart(float PosX, float PosY, int RadiusInTiles)
+{
+	return m_pContext->m_pfnIsClusterRangeStart(PosX, PosY, RadiusInTiles, m_pContext->m_pUser);
+}
+
 CChillerBotReplyContext::CChillerBotReplyContext()
 {
 	Reset();
@@ -319,6 +354,9 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	m_pMessageAuthorClan = pMsg->m_pAuthorClan;
 	m_pReplyBuf = pReplyBuf;
 	m_ReplyBufLen = ReplyBufLen;
+
+	m_WarList.OnInit(&m_Context);
+	m_RaceHelper.OnInit(&m_Context);
 
 	int MsgLen = str_length(pMsg->m_pMessage);
 	int NameLen = 0;
