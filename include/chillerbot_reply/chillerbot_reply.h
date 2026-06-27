@@ -103,10 +103,27 @@ class CChillerBotReply
 
 	// check_war_others.cpp
 	bool WhyWar(const char *pVictim, bool IsCheck = false);
+
+	/*
+		IsWarCheckSuffix
+
+		Check if the given string could be a message checking
+		if another player has war. By only looking at the suffix.
+		And only looking at the format "name is war?" not "is war name?"
+
+		Returns the suffix length that was found
+	*/
 	int IsWarCheckSuffix(const char *pStr);
 	bool NameIsWar();
 
 	// check_war_self.cpp
+
+	/*
+		WhyDoYouKillMe
+
+		Covering all kinds of questions like only "?"
+		But only triggering an response if its coming from an enemy.
+	*/
 	bool WhyDoYouKillMe(int NameLen, int MsgLen);
 
 public:
