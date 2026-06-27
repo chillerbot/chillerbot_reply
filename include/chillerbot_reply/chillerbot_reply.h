@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <optional>
 
 enum
 {
@@ -12,8 +13,13 @@ enum
 class CChillerBotReplyTee
 {
 public:
-	const char *m_pName = "nameless tee";
+	bool m_Active = true;
+
+	int m_ClientId = 0;
+	const char *m_pName = "(invalid)";
 	const char *m_pClan = "";
+	std::optional<float> m_PosX = std::nullopt;
+	std::optional<float> m_PosY = std::nullopt;
 };
 
 class CChillerBotReplyContext
@@ -32,9 +38,9 @@ public:
 
 	void *m_pUser = nullptr;
 
-	// TODO: I think GetClient() retruning a struct would be better
 	const char *(*m_pfnGetClientName)(int ClientId, void *pUser) = nullptr;
 	const char *(*m_pfnGetClientClan)(int ClientId, void *pUser) = nullptr;
+	CChillerBotReplyTee (*m_pfnGetClient)(int ClientId, void *pUser) = nullptr;
 
 	void (*m_pfnGetWarReason)(const char *pName, char *pReason, int ReasonSize, void *pUser) = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
@@ -94,6 +100,7 @@ class CChillerBotReply
 	const char *Name();
 	const char *DummyName();
 	bool IsDummyConnected() const;
+	CChillerBotReplyTee GetClient(int ClientId) const;
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);

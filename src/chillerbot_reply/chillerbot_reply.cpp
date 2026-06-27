@@ -98,6 +98,11 @@ bool CChillerBotReply::IsDummyConnected() const
 	return m_Context.m_IsDummyConnected;
 }
 
+CChillerBotReplyTee CChillerBotReply::GetClient(int ClientId) const
+{
+	return m_Context.m_pfnGetClient(ClientId, m_Context.m_pUser);
+}
+
 void CChillerBotReply::WriteReplyBuf(const char *pMessage)
 {
 	str_copy(m_pReplyBuf, pMessage, m_ReplyBufLen);
