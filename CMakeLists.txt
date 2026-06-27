@@ -9,6 +9,7 @@ SET(LIB_SOURCE_FILES
     src/chillerbot_reply/clan.cpp
     src/chillerbot_reply/chillerbot_reply.cpp
     src/chillerbot_reply/langparser.cpp
+    src/chillerbot_reply/text_helper.cpp
 )
 
 add_library(chillerbot_reply ${LIB_SOURCE_FILES})
