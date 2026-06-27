@@ -55,6 +55,7 @@ class CChillerBotReply
 	bool LineShouldHighlight(const char *pLine, const char *pName);
 
 	bool CanIJoinYourClan();
+	bool ListClanWars();
 
 public:
 	CChillerBotReplyContext m_Context;
