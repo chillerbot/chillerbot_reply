@@ -45,7 +45,33 @@ int _expect_eq(int Actual, int Expected, int Line)
 	return 1;
 }
 
-int __float_close(float Num1, float Num2, float MaxDiff)
+int _expect_true(bool Actual, int Line)
+{
+	if(Actual == true)
+	{
+		_test_ok();
+		return 0;
+	}
+	fprintf(stderr, "assert failed in line %d\n", Line);
+	fprintf(stderr, "expected TRUE but got FALSE\n");
+	_test_fail();
+	return 1;
+}
+
+int _expect_false(bool Actual, int Line)
+{
+	if(Actual == false)
+	{
+		_test_ok();
+		return 0;
+	}
+	fprintf(stderr, "assert failed in line %d\n", Line);
+	fprintf(stderr, "expected FALSE but got TRUE\n");
+	_test_fail();
+	return 1;
+}
+
+static int __float_close(float Num1, float Num2, float MaxDiff)
 {
 	float Diff = fabsf(Num1 - Num2);
 	Num1 = std::abs(Num1);
