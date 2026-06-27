@@ -166,6 +166,11 @@ void CChillerBotReply::SendChat(int Team, const char *pLine) const
 	m_Context.m_pfnSendChat(Team, pLine, m_Context.m_pUser);
 }
 
+bool CChillerBotReply::GetWeaponGot(int ClientId, int Weapon) const
+{
+	return m_Context.m_pfnGetWeaponGot(ClientId, Weapon, m_Context.m_pUser);
+}
+
 void CChillerBotReply::WriteReplyBuf(const char *pMessage)
 {
 	str_copy(m_pReplyBuf, pMessage, m_ReplyBufLen);

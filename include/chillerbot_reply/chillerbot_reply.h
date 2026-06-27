@@ -54,6 +54,7 @@ public:
 	int (*m_pfnGetTotalJumpsCallback)(void *pUser) = nullptr;
 	int (*m_pfnGetUnusedJumpsCallback)(void *pUser) = nullptr;
 	void (*m_pfnSendChat)(int Team, const char *pLine, void *pUser) = nullptr;
+	bool (*m_pfnGetWeaponGot)(int ClientId, int Weapon, void *pUser) = nullptr;
 
 	void (*m_pfnGetWarReason)(const char *pName, char *pReason, int ReasonSize, void *pUser) = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
@@ -147,6 +148,7 @@ private:
 	int GetTotalJumps() const;
 	int GetUnusedJumps() const;
 	void SendChat(int Team, const char *pLine) const;
+	bool GetWeaponGot(int ClientId, int Weapon) const;
 	const CChillerBotReplyContext::CConfig *Config() const { return &m_Context.m_Config; }
 
 	void WriteReplyBuf(const char *pMessage);
