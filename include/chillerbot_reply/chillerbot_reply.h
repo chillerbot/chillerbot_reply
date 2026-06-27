@@ -38,7 +38,7 @@ public:
 
 	bool m_IsDummyConnected = false;
 
-	class
+	class CConfig
 	{
 	public:
 		int m_InpMousesens;
@@ -123,6 +123,10 @@ public:
 
 class CChillerBotReply
 {
+public:
+	CChillerBotReplyContext m_Context;
+
+private:
 	const char *m_pMessage = "";
 	const char *m_pMessageAuthor = "";
 	const char *m_pMessageAuthorClan = "";
@@ -143,6 +147,7 @@ class CChillerBotReply
 	int GetTotalJumps() const;
 	int GetUnusedJumps() const;
 	void SendChat(int Team, const char *pLine) const;
+	const CChillerBotReplyContext::CConfig *Config() const { return &m_Context.m_Config; }
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);
@@ -202,8 +207,6 @@ class CChillerBotReply
 	bool WhatOs();
 
 public:
-	CChillerBotReplyContext m_Context;
-
 	// returns true when it found a reply to `pMsg`
 	// and fills the reply into `pReplyBuf`
 	bool Reply(const CChillerBotReplyChatMessage *pMsg, char *pReplyBuf, size_t ReplyBufLen);
