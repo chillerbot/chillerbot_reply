@@ -97,10 +97,11 @@ class CChillerBotReply
 
 	bool CanIJoinYourClan();
 	bool ListClanWars();
+	bool IsWarName();
 
 	// check_war_others.cpp
 
-	bool WhyWar(const char *pVictim, bool IsCheck);
+	bool WhyWar(const char *pVictim, bool IsCheck = false);
 
 public:
 	CChillerBotReplyContext m_Context;
