@@ -431,15 +431,64 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	if(Where())
 		return true;
 
-	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
+	// are you here?
+	if((str_find_nocase(m_pMessage, "u here") || str_find_nocase(m_pMessage, "here?")) && (MsgLen < NameLen + str_length("yo brother are you here????")))
 	{
-		WriteReplyBuf("lab");
+		WriteReplyBufWithPing("yes I am here");
 		return true;
 	}
-	if(str_find(pMsg->m_pMessage, "lib"))
+
+	// how many jumps do you have?
+	if(str_find_nocase(m_pMessage, "how") &&
+		(str_find_nocase(m_pMessage, "mani") || str_find_nocase(m_pMessage, "many") || str_find_nocase(m_pMessage, "much")) &&
+		(str_find_nocase(m_pMessage, "jamp") || str_find_nocase(m_pMessage, "jump") || str_find_nocase(m_pMessage, "jomp")))
 	{
-		WriteReplyBuf("lab xd");
+		int UnusedJumps = GetUnusedJumps();
+		int TotalJumps = GetTotalJumps();
+		WriteReplyBufFormat("%s I currently have %d out of %d jumps", m_pMessageAuthor, UnusedJumps, TotalJumps);
 		return true;
+	}
+
+	// // do you have double jump?
+	if((str_find_nocase(m_pMessage, "have") || str_find_nocase(m_pMessage, "has") || str_find_nocase(m_pMessage, "got") || str_find_nocase(m_pMessage, "you") || str_find_nocase(m_pMessage, " u ")) &&
+		(str_find_nocase(m_pMessage, " dj") || str_find_nocase(m_pMessage, "double") || str_find_nocase(m_pMessage, "lejump") || str_find_nocase(m_pMessage, "lejamp") || str_find_nocase(m_pMessage, "lejomp")))
+	{
+		int UnusedJumps = GetUnusedJumps();
+		int TotalJumps = GetTotalJumps();
+		if(UnusedJumps > 0)
+			WriteReplyBufFormat("%s Yes. I currently have %d out of %d jumps", m_pMessageAuthor, UnusedJumps, TotalJumps);
+		else
+			WriteReplyBufFormat("%s No. I currently have %d out of %d jumps", m_pMessageAuthor, UnusedJumps, TotalJumps);
+		return true;
+	}
+
+	// spec me
+	if(str_find_nocase(m_pMessage, "spec") || str_find_nocase(m_pMessage, "watch") || (str_find_nocase(m_pMessage, "look") && !str_find_nocase(m_pMessage, "looks")) || str_find_nocase(m_pMessage, "schau"))
+	{
+		char aBuf[512];
+		str_format(aBuf, sizeof(aBuf), "/pause %s", m_pMessageAuthor);
+		SendChat(0, aBuf);
+		WriteReplyBufFormat("%s ok i am watching you", m_pMessageAuthor);
+		return true;
+	}
+	// wanna? (always say no automated if motivated to do something type yes manually)
+	if(str_find_nocase(m_pMessage, "wanna") || str_find_nocase(m_pMessage, "want"))
+	{
+		// TODO: fix tone
+		// If you get asked to be given something "no sorry" sounds weird
+		// If you are being asked to do something together "no thanks" sounds weird
+		// the generic "no" might be a bit dry
+		WriteReplyBufWithPing("no");
+		return true;
+	}
+	// help
+	if(str_find_nocase(m_pMessage, "help") || str_find_nocase(m_pMessage, "hilfe"))
+	{
+		if(!str_find_nocase(m_pMessage, "helper"))
+		{
+			WriteReplyBufFormat("%s where? what?", m_pMessageAuthor);
+			return true;
+		}
 	}
 	return false;
 }
