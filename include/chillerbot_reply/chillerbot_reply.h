@@ -45,6 +45,7 @@ public:
 	CChillerBotReplyTee (*m_pfnGetClient)(int ClientId, void *pUser) = nullptr;
 	int (*m_pfnGetTotalJumpsCallback)(void *pUser) = nullptr;
 	int (*m_pfnGetUnusedJumpsCallback)(void *pUser) = nullptr;
+	void (*m_pfnSendChat)(int Team, const char *pLine, void *pUser) = nullptr;
 
 	void (*m_pfnGetWarReason)(const char *pName, char *pReason, int ReasonSize, void *pUser) = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
@@ -133,6 +134,7 @@ class CChillerBotReply
 	std::optional<polynet::vec2> Pos();
 	int GetTotalJumps() const;
 	int GetUnusedJumps() const;
+	void SendChat(int Team, const char *pLine) const;
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);
