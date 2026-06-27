@@ -43,6 +43,8 @@ public:
 	const char *(*m_pfnGetClientName)(int ClientId, void *pUser) = nullptr;
 	const char *(*m_pfnGetClientClan)(int ClientId, void *pUser) = nullptr;
 	CChillerBotReplyTee (*m_pfnGetClient)(int ClientId, void *pUser) = nullptr;
+	int (*m_pfnGetTotalJumpsCallback)(void *pUser) = nullptr;
+	int (*m_pfnGetUnusedJumpsCallback)(void *pUser) = nullptr;
 
 	void (*m_pfnGetWarReason)(const char *pName, char *pReason, int ReasonSize, void *pUser) = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
@@ -129,6 +131,8 @@ class CChillerBotReply
 	bool IsDummyConnected() const;
 	CChillerBotReplyTee GetClient(int ClientId) const;
 	std::optional<polynet::vec2> Pos();
+	int GetTotalJumps() const;
+	int GetUnusedJumps() const;
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);

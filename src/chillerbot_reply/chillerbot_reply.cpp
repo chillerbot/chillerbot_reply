@@ -151,6 +151,16 @@ std::optional<polynet::vec2> CChillerBotReply::Pos()
 	return Pos;
 }
 
+int CChillerBotReply::GetTotalJumps() const
+{
+	return m_Context.m_pfnGetTotalJumpsCallback(m_Context.m_pUser);
+}
+
+int CChillerBotReply::GetUnusedJumps() const
+{
+	return m_Context.m_pfnGetUnusedJumpsCallback(m_Context.m_pUser);
+}
+
 void CChillerBotReply::WriteReplyBuf(const char *pMessage)
 {
 	str_copy(m_pReplyBuf, pMessage, m_ReplyBufLen);
