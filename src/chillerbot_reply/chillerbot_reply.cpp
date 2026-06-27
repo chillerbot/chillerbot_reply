@@ -335,6 +335,10 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	// why? (check war for self)
 	if(WhyDoYouKillMe(NameLen, MsgLen))
 		return true;
+	// still check war for others but now different order
+	// also cover "name is war?" in addition to "is war name?"
+	if(NameIsWar())
+		return true;
 
 	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
 	{

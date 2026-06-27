@@ -173,3 +173,140 @@ int CChillerBotReply::IsWarCheckSuffix(const char *pStr)
 	}
 	return ChopEnding;
 }
+
+bool CChillerBotReply::NameIsWar()
+{
+	// still check war for others but now different order
+	// also cover "name is war?" in addition to "is war name?"
+	char aStrippedMsg[256];
+	TextHelper::StripSpacesAndPunctuationAndOwnName(m_pMessage, Name(), DummyName(), aStrippedMsg, sizeof(aStrippedMsg));
+	int ChopEnding = IsWarCheckSuffix(aStrippedMsg);
+	bool Strict = false;
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " bad");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " good");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " friend");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " frien");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " frent");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " fren");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " frint");
+	}
+	if(!ChopEnding)
+	{
+		Strict = true;
+		ChopEnding = TextHelper::GetSuffixLen(aStrippedMsg, " enemy");
+	}
+
+	if(ChopEnding)
+	{
+		unsigned int Cut = str_length(aStrippedMsg) - ChopEnding;
+		if(Cut > 0 && Cut < sizeof(aStrippedMsg))
+		{
+			aStrippedMsg[str_length(aStrippedMsg) - ChopEnding] = '\0';
+			if(WhyWar(aStrippedMsg))
+				return true;
+			bool FoundName = false;
+			if(Strict)
+			{
+				for(int i = 0; i < MAX_CLIENTS; i++)
+				{
+					const char *pLoopName = m_Context.m_pfnGetClientName(i, m_Context.m_pUser);
+					const char *pLoopClan = m_Context.m_pfnGetClientName(i, m_Context.m_pUser);
+					if(pLoopName[0] == '\0')
+						continue;
+					if(!str_comp(pLoopName, aStrippedMsg))
+					{
+						if(m_WarList.IsTeamlist(pLoopName))
+						{
+							WriteReplyBufFormat("%s: '%s' is on my friend list.", m_pMessageAuthor, pLoopName);
+							return true;
+						}
+						if(m_WarList.IsTeamClanlist(pLoopClan))
+						{
+							WriteReplyBufFormat("%s: '%s's clan %s is on my friend list.", m_pMessageAuthor, pLoopName, pLoopClan);
+							return true;
+						}
+						FoundName = true;
+						break;
+					}
+				}
+			}
+			const char *pPrefixStripped = aStrippedMsg;
+			// second search strip some prefix
+			if(!FoundName)
+			{
+				Strict = false;
+				if(str_startswith_nocase(aStrippedMsg, " is "))
+				{
+					pPrefixStripped = aStrippedMsg + str_length(" is ");
+					if(WhyWar(pPrefixStripped))
+						return true;
+				}
+				else if(str_startswith_nocase(aStrippedMsg, "is "))
+				{
+					pPrefixStripped = aStrippedMsg + str_length("is ");
+					if(WhyWar(pPrefixStripped))
+						return true;
+				}
+				else if(str_startswith_nocase(aStrippedMsg, " do you "))
+				{
+					pPrefixStripped = aStrippedMsg + str_length("is ");
+					if(WhyWar(pPrefixStripped))
+						return true;
+				}
+				else if(str_startswith_nocase(aStrippedMsg, "do you "))
+				{
+					pPrefixStripped = aStrippedMsg + str_length("is ");
+					if(WhyWar(pPrefixStripped))
+						return true;
+				}
+				else if(str_startswith_nocase(aStrippedMsg, " on "))
+				{
+					pPrefixStripped = aStrippedMsg + str_length("is ");
+					if(WhyWar(pPrefixStripped))
+						return true;
+				}
+				else if(str_startswith_nocase(aStrippedMsg, "on "))
+				{
+					pPrefixStripped = aStrippedMsg + str_length("is ");
+					if(WhyWar(pPrefixStripped))
+						return true;
+				}
+				else
+					Strict = true;
+			}
+			if(!Strict || FoundName)
+			{
+				WriteReplyBufFormat("%s: '%s' is not on my warlist.", m_pMessageAuthor, pPrefixStripped);
+				return true;
+			}
+		}
+	}
+	return false;
+}

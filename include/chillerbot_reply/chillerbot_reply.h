@@ -104,6 +104,7 @@ class CChillerBotReply
 	// check_war_others.cpp
 	bool WhyWar(const char *pVictim, bool IsCheck = false);
 	int IsWarCheckSuffix(const char *pStr);
+	bool NameIsWar();
 
 	// check_war_self.cpp
 	bool WhyDoYouKillMe(int NameLen, int MsgLen);
