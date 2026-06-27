@@ -32,6 +32,10 @@ public:
 
 	void *m_pUser = nullptr;
 
+	// TODO: I think GetClient() retruning a struct would be better
+	const char *(*m_pfnGetClientName)(int ClientId, void *pUser) = nullptr;
+	const char *(*m_pfnGetClientClan)(int ClientId, void *pUser) = nullptr;
+
 	void (*m_pfnGetWarReason)(const char *pName, char *pReason, int ReasonSize, void *pUser) = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
 	bool (*m_pfnIsWar)(const char *pName, const char *pClan, void *pUser) = nullptr;
@@ -41,6 +45,7 @@ public:
 	bool (*m_pfnIsWarClanlist)(const char *pClan, void *pUser) = nullptr;
 	bool (*m_pfnIsTeamClanlist)(const char *pClan, void *pUser) = nullptr;
 	bool (*m_pfnIsWarClanmate)(const char *pClan, void *pUser) = nullptr;
+	bool (*m_pfnIsWarClanmateId)(int ClientId, void *pUser) = nullptr;
 };
 
 class CChillerBotReplyChatMessage
@@ -67,6 +72,7 @@ public:
 	bool IsWarClanlist(const char *pClan);
 	bool IsTeamClanlist(const char *pClan);
 	bool IsWarClanmate(const char *pClan);
+	bool IsWarClanmate(int ClientId);
 };
 
 class CChillerBotReply

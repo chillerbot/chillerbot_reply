@@ -7,7 +7,6 @@ using namespace ddnet_base;
 
 bool CChillerBotReply::WhyWar(const char *pVictim, bool IsCheck)
 {
-	/*
 	if(!pVictim)
 		return false;
 
@@ -88,35 +87,33 @@ bool CChillerBotReply::WhyWar(const char *pVictim, bool IsCheck)
 	{
 		m_WarList.GetWarReason(aVictim, aWarReason, sizeof(aWarReason));
 		if(aWarReason[0])
-			str_format(m_pResponse, m_SizeOfResponse, "%s: %s has war because: %s", m_pMessageAuthor, aVictim, aWarReason);
+			WriteReplyBufFormat("%s: %s has war because: %s", m_pMessageAuthor, aVictim, aWarReason);
 		else
-			str_format(m_pResponse, m_SizeOfResponse, "%s: the name %s is on my warlist.", m_pMessageAuthor, aVictim);
+			WriteReplyBufFormat("%s: the name %s is on my warlist.", m_pMessageAuthor, aVictim);
 		return true;
 	}
 	for(int i = 0; i < MAX_CLIENTS; i++)
 	{
-		auto &Client = GameClient()->m_aClients[i];
-		if(!Client.m_Active)
-			continue;
-		if(str_comp(Client.m_aName, aVictim))
+		const char *pLoopName = m_Context.m_pfnGetClientName(i, m_Context.m_pUser);
+		const char *pLoopClan = m_Context.m_pfnGetClientName(i, m_Context.m_pUser);
+		if(str_comp(pLoopName, aVictim))
 			continue;
 
-		if(m_WarList.IsWarClanlist(Client.m_aClan))
+		if(m_WarList.IsWarClanlist(pLoopClan))
 		{
-			str_format(m_pResponse, m_SizeOfResponse, "%s i war %s because his clan %s is on my warlist.", m_pMessageAuthor, aVictim, Client.m_aClan);
+			WriteReplyBufFormat("%s i war %s because his clan %s is on my warlist.", m_pMessageAuthor, aVictim, pLoopClan);
 			return true;
 		}
 		if(m_WarList.IsWarClanmate(i))
 		{
-			str_format(m_pResponse, m_SizeOfResponse, "%s i might kill %s because I war member from his clan %s", m_pMessageAuthor, aVictim, Client.m_aClan);
+			WriteReplyBufFormat("%s i might kill %s because I war member from his clan %s", m_pMessageAuthor, aVictim, pLoopClan);
 			return true;
 		}
 	}
 	if(IsCheck && str_comp_nocase(aVictim, "me"))
 	{
-		str_format(m_pResponse, m_SizeOfResponse, "%s: '%s' is not on my warlist.", m_pMessageAuthor, aVictim);
+		WriteReplyBufFormat("%s: '%s' is not on my warlist.", m_pMessageAuthor, aVictim);
 		return true;
 	}
-	*/
 	return false;
 }

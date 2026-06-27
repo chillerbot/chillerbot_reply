@@ -56,6 +56,11 @@ bool CWarListWrapper::IsWarClanmate(const char *pClan)
 	return m_pContext->m_pfnIsWarClanmate(pClan, m_pContext->m_pUser);
 }
 
+bool CWarListWrapper::IsWarClanmate(int ClientId)
+{
+	return m_pContext->m_pfnIsWarClanmateId(ClientId, m_pContext->m_pUser);
+}
+
 CChillerBotReplyContext::CChillerBotReplyContext()
 {
 	Reset();
