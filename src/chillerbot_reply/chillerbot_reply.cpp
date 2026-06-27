@@ -542,5 +542,11 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 		WriteReplyBufFormat("%s I use chillerbot-ux ( https://chillerbot.github.io )", m_pMessageAuthor);
 		return true;
 	}
+
+	// TODO: placeholder
+
+	if(WhatOs())
+		return true;
+
 	return false;
 }

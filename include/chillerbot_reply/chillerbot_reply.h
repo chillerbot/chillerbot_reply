@@ -190,6 +190,9 @@ class CChillerBotReply
 	// smalltalk.cpp
 	bool SmallTalk(int NameLen, int MsgLen);
 
+	// operating_system.cpp
+	bool WhatOs();
+
 public:
 	CChillerBotReplyContext m_Context;
 
