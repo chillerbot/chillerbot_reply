@@ -352,6 +352,10 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	// check all wars "who is on your warlist?"
 	if(ListWars())
 		return true;
+	// intentionally check for being on warlist
+	// also expecting an no if not
+	if(DoYouWarMe(NameLen, MsgLen))
+		return true;
 
 	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
 	{

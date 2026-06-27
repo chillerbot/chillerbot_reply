@@ -133,6 +133,14 @@ class CChillerBotReply
 	*/
 	bool WhyDoYouKillMe(int NameLen, int MsgLen);
 
+	/*
+		DoYouWarMe
+
+		intentionally check for being on warlist
+		also expecting an no if not
+	*/
+	bool DoYouWarMe(int NameLen, int MsgLen);
+
 public:
 	CChillerBotReplyContext m_Context;
 
