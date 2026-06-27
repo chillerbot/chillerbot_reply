@@ -490,5 +490,7 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 			return true;
 		}
 	}
+	if(SmallTalk(NameLen, MsgLen))
+		return true;
 	return false;
 }

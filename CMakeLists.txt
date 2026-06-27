@@ -14,6 +14,7 @@ SET(LIB_SOURCE_FILES
     src/chillerbot_reply/text_helper.cpp
     src/chillerbot_reply/list_wars.cpp
     src/chillerbot_reply/where.cpp
+    src/chillerbot_reply/smalltalk.cpp
     src/polynet/protocol.h
     src/polynet/math.h
     src/polynet/vmath.h

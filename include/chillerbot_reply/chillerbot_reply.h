@@ -187,6 +187,9 @@ class CChillerBotReply
 	// where are you
 	bool Where();
 
+	// smalltalk.cpp
+	bool SmallTalk(int NameLen, int MsgLen);
+
 public:
 	CChillerBotReplyContext m_Context;
 
