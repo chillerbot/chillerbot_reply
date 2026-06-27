@@ -1,4 +1,5 @@
 #include <chillerbot_reply/chillerbot_reply.h>
+#include <chillerbot_reply/text_helper.h>
 #include <ddnet_base/base/str.h>
 #include <polynet/protocol.h>
 
@@ -118,4 +119,57 @@ bool CChillerBotReply::WhyWar(const char *pVictim, bool IsCheck)
 		return true;
 	}
 	return false;
+}
+
+int CChillerBotReply::IsWarCheckSuffix(const char *pStr)
+{
+	const char aaPrefixes[][16] = {" in", " on", " at", " is"};
+	const char aaYous[][16] = {" u", " you", " your", " ur", " deiner", " deinen", " ju", " ti", " jour", " jur", " tu"};
+	const char aaWarlists[][64] = {
+		" warlist",
+		" war list",
+		" friendlist",
+		" friend list",
+		" team list",
+		" peace list",
+		" enemy list",
+		" enemies",
+		" enemys",
+		" frint list",
+		" frintlist",
+		" frentlist",
+		" frent list",
+		" frenlist",
+		" fren list",
+		" friends",
+		" frints",
+		" frintss",
+		" frents",
+		" friend",
+		" frint",
+		" frent",
+		" fren",
+		" good",
+		" war",
+		" kill",
+		" bad"};
+	char aOnYourWarlist[128];
+	int ChopEnding = 0;
+	for(const auto &aPrefix : aaPrefixes)
+	{
+		for(const auto &aWarlist : aaWarlists)
+		{
+			str_format(aOnYourWarlist, sizeof(aOnYourWarlist), "%s%s", aPrefix, aWarlist);
+			ChopEnding = TextHelper::GetSuffixLen(pStr, aOnYourWarlist);
+			if(ChopEnding)
+				return ChopEnding;
+			for(const auto &aYou : aaYous)
+			{
+				str_format(aOnYourWarlist, sizeof(aOnYourWarlist), "%s%s%s", aPrefix, aYou, aWarlist);
+				if((ChopEnding = TextHelper::GetSuffixLen(pStr, aOnYourWarlist)))
+					return ChopEnding;
+			}
+		}
+	}
+	return ChopEnding;
 }
