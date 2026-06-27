@@ -3,10 +3,12 @@
 #include <chillerbot_reply/langparser.h>
 #include <chillerbot_reply/text_helper.h>
 #include <ddnet_base/base/str.h>
+#include <polynet/protocol.h>
 
 #include <optional>
 
 using namespace ddnet_base;
+using namespace polynet;
 using namespace LangParser;
 
 void CWarListWrapper::OnInit(const CChillerBotReplyContext *pContext)
@@ -596,10 +598,43 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	if(LangParser::IsAskToAsk(m_pMessage, m_pMessageAuthor, m_pReplyBuf, m_ReplyBufLen))
 		return true;
 
-	// TODO: placeholder
+	// got weapon?
+	if(str_find_nocase(m_pMessage, "got") || str_find_nocase(m_pMessage, "have") || str_find_nocase(m_pMessage, "hast"))
+	{
+		int Weapon = -1;
+		if(str_find_nocase(m_pMessage, "hammer"))
+			Weapon = WEAPON_HAMMER;
+		else if(str_find_nocase(m_pMessage, "gun"))
+			Weapon = WEAPON_GUN;
+		else if(str_find_nocase(m_pMessage, "sg") || str_find_nocase(m_pMessage, "shotgun") || str_find_nocase(m_pMessage, "shotty"))
+			Weapon = WEAPON_SHOTGUN;
+		else if(str_find_nocase(m_pMessage, "nade") || str_find_nocase(m_pMessage, "rocket") || str_find_nocase(m_pMessage, "bazooka"))
+			Weapon = WEAPON_GRENADE;
+		else if(str_find_nocase(m_pMessage, "rifle") || str_find_nocase(m_pMessage, "laser") || str_find_nocase(m_pMessage, "sniper"))
+			Weapon = WEAPON_LASER;
+		int OwnCid = m_Context.m_aOwnTees[Config()->m_ClDummy].m_ClientId;
+		if(Weapon != -1)
+		{
+			char aWeapons[1024];
+			aWeapons[0] = '\0';
+			if(GetWeaponGot(OwnCid, WEAPON_HAMMER))
+				str_append(aWeapons, "hammer", sizeof(aWeapons));
+			if(GetWeaponGot(OwnCid, WEAPON_GUN))
+				str_append(aWeapons, aWeapons[0] ? ", gun" : "gun", sizeof(aWeapons));
+			if(GetWeaponGot(OwnCid, WEAPON_SHOTGUN))
+				str_append(aWeapons, aWeapons[0] ? ", shotgun" : "shotgun", sizeof(aWeapons));
+			if(GetWeaponGot(OwnCid, WEAPON_GRENADE))
+				str_append(aWeapons, aWeapons[0] ? ", grenade" : "grenade", sizeof(aWeapons));
+			if(GetWeaponGot(OwnCid, WEAPON_LASER))
+				str_append(aWeapons, aWeapons[0] ? ", rifle" : "rifle", sizeof(aWeapons));
 
-	if(WhatOs())
-		return true;
+			if(GetWeaponGot(OwnCid, Weapon))
+				WriteReplyBufFormat("%s Yes I got those weapons: %s", m_pMessageAuthor, aWeapons);
+			else
+				WriteReplyBufFormat("%s No I got those weapons: %s", m_pMessageAuthor, aWeapons);
+			return true;
+		}
+	}
 
 	return false;
 }

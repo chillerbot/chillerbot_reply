@@ -41,6 +41,7 @@ public:
 	class CConfig
 	{
 	public:
+		int m_ClDummy;
 		int m_InpMousesens;
 		int m_ClMouseMaxDistance;
 		int m_ClDyncam;
