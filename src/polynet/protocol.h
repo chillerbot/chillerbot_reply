@@ -10,4 +10,15 @@ namespace polynet
 
 		MAX_CLIENTS = 128,
 	};
+
+	enum
+	{
+		WEAPON_HAMMER = 0,
+		WEAPON_GUN,
+		WEAPON_SHOTGUN,
+		WEAPON_GRENADE,
+		WEAPON_LASER,
+		WEAPON_NINJA,
+		NUM_WEAPONS
+	};
 }
