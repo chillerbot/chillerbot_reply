@@ -31,6 +31,8 @@ public:
 	bool m_IsDummyConnected = false;
 
 	void *m_pUser = nullptr;
+
+	void (*m_pfnGetWarReason)(const char *pName, char *pReason, int ReasonSize, void *pUser) = nullptr;
 	void (*m_pfnGetWarClansStr)(char *pBuf, size_t BufLen, void *pUser) = nullptr;
 	bool (*m_pfnIsWar)(const char *pName, const char *pClan, void *pUser) = nullptr;
 	bool (*m_pfnIsWarlist)(const char *pName, void *pUser) = nullptr;
