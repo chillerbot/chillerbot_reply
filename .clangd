@@ -1,5 +1,6 @@
 Style:
   AngledHeaders: [
     "chillerbot_reply/.*",
-    "ddnet_base/.*"
+    "ddnet_base/.*",
+    "polynet/.*"
   ]

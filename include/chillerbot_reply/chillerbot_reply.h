@@ -51,12 +51,37 @@ public:
 	int m_Team = 0;
 };
 
+class CWarListWrapper
+{
+	const CChillerBotReplyContext *m_pContext = nullptr;
+
+public:
+	void OnInit(const CChillerBotReplyContext *pContext);
+
+	void GetWarReason(const char *pName, char *pReason, int ReasonSize);
+	void GetWarClansStr(char *pBuf, size_t BufLen);
+	bool IsWar(const char *pName, const char *pClan);
+	bool IsWarlist(const char *pName);
+	bool IsTeamlist(const char *pName);
+	bool IsTraitorlist(const char *pName);
+	bool IsWarClanlist(const char *pClan);
+	bool IsTeamClanlist(const char *pClan);
+	bool IsWarClanmate(const char *pClan);
+};
+
 class CChillerBotReply
 {
 	const char *m_pMessage = "";
 	const char *m_pMessageAuthor = "";
 	char *m_pReplyBuf = nullptr;
 	size_t m_ReplyBufLen = 0;
+
+	CWarListWrapper m_WarList;
+	CWarListWrapper &WarList() { return m_WarList; }
+
+	const char *Name();
+	const char *DummyName();
+	bool IsDummyConnected() const;
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);
@@ -66,6 +91,10 @@ class CChillerBotReply
 
 	bool CanIJoinYourClan();
 	bool ListClanWars();
+
+	// check_war_others.cpp
+
+	bool WhyWar(const char *pVictim, bool IsCheck);
 
 public:
 	CChillerBotReplyContext m_Context;

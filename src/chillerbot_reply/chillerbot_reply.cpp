@@ -6,6 +6,56 @@
 using namespace ddnet_base;
 using namespace LangParser;
 
+void CWarListWrapper::OnInit(const CChillerBotReplyContext *pContext)
+{
+	m_pContext = pContext;
+}
+
+void CWarListWrapper::GetWarReason(const char *pName, char *pReason, int ReasonSize)
+{
+	m_pContext->m_pfnGetWarReason(pName, pReason, ReasonSize, m_pContext->m_pUser);
+}
+
+void CWarListWrapper::GetWarClansStr(char *pBuf, size_t BufLen)
+{
+	m_pContext->m_pfnGetWarClansStr(pBuf, BufLen, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsWar(const char *pName, const char *pClan)
+{
+	return m_pContext->m_pfnIsWar(pName, pClan, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsWarlist(const char *pName)
+{
+	return m_pContext->m_pfnIsWarlist(pName, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsTeamlist(const char *pName)
+{
+	return m_pContext->m_pfnIsTeamlist(pName, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsTraitorlist(const char *pName)
+{
+	return m_pContext->m_pfnIsTraitorlist(pName, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsWarClanlist(const char *pClan)
+{
+	return m_pContext->m_pfnIsWarClanlist(pClan, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsTeamClanlist(const char *pClan)
+{
+	return m_pContext->m_pfnIsTeamClanlist(pClan, m_pContext->m_pUser);
+}
+
+bool CWarListWrapper::IsWarClanmate(const char *pClan)
+{
+	return m_pContext->m_pfnIsWarClanmate(pClan, m_pContext->m_pUser);
+}
+
 CChillerBotReplyContext::CChillerBotReplyContext()
 {
 	Reset();
@@ -15,6 +65,21 @@ void CChillerBotReplyContext::Reset()
 {
 	m_ActiveTee = 0;
 	m_IsDummyConnected = false;
+}
+
+const char *CChillerBotReply::Name()
+{
+	return m_Context.m_aOwnTees[0].m_pName;
+}
+
+const char *CChillerBotReply::DummyName()
+{
+	return m_Context.m_aOwnTees[1].m_pName;
+}
+
+bool CChillerBotReply::IsDummyConnected() const
+{
+	return m_Context.m_IsDummyConnected;
 }
 
 void CChillerBotReply::WriteReplyBuf(const char *pMessage)
