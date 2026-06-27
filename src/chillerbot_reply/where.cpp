@@ -34,7 +34,7 @@ bool CChillerBotReply::Where()
 			if(!Client.m_PosX.has_value() || !Client.m_PosY.has_value())
 			{
 				// TODO: this is not ideal, also say we are at finish or start if we are close to that
-				WriteReplyBufFormat("%s no idea where you are but I am at x: %.2f, y: %.2f", m_pMessageAuthor, Self.x, Self.y);
+				WriteReplyBufFormat("%s no idea where you are but I am at x: %.2f, y: %.2f", m_pMessageAuthor, Self.x / 32.0f, Self.y / 32.0f);
 				return true;
 			}
 
