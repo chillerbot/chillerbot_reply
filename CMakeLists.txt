@@ -78,4 +78,5 @@ register_test("sample")
 register_test("greet")
 register_test("clan")
 register_test("war")
+register_test("langparser")
 

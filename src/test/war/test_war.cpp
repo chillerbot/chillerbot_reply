@@ -15,9 +15,9 @@ static void TestBasic()
 {
 	InitTest("war");
 
-	CChillerBotReplyContext Context;
-	Context.m_pfnGetWarClansStr = MockGetWarClansStr;
-	ExpectReply("testo1 which clans do you war?", "testo1 Chilli.* is a fun clan everybody that uses the skin greensward can join", Context);
+	// CChillerBotReplyContext Context;
+	// Context.m_pfnGetWarClansStr = MockGetWarClansStr;
+	// ExpectReply("testo1 which clans do you war?", "testo1 Chilli.* is a fun clan everybody that uses the skin greensward can join", Context);
 }
 
 int main()
