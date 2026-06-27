@@ -401,6 +401,13 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	const char *pDummyName = m_Context.m_aOwnTees[1].m_pName;
 	// const char *pDummyClan = m_Context.m_aOwnTees[1].m_pClan;
 
+	// TODO: this name length check is flawed
+	//       we detect the name that triggered the ping with a string find of dummy and main tee name
+	//       if dummy and main tee names are differet length and one is a subset of the other
+	//       which is quite common like "ChillerDragon" and "ChillerDragon.*"
+	//       and "foo" and "[D] foo"
+	//       the length checks will be wrong that subtract the name length
+
 	if(LineShouldHighlight(pMsg->m_pMessage, pName))
 		NameLen = str_length(pName);
 	else if(m_Context.m_IsDummyConnected && LineShouldHighlight(pMsg->m_pMessage, pDummyName))
@@ -634,6 +641,93 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 				WriteReplyBufFormat("%s No I got those weapons: %s", m_pMessageAuthor, aWeapons);
 			return true;
 		}
+	}
+
+	// fake?
+	if(str_find_nocase(m_pMessage, "fake?") ||
+		str_find_nocase(m_pMessage, "you fake") ||
+		str_find_nocase(m_pMessage, "u fake") ||
+		str_find_nocase(m_pMessage, "feker"))
+	{
+		WriteReplyBufFormat("%s yes i am fake", m_pMessageAuthor);
+		return true;
+	}
+
+	// real?
+	if(str_find_nocase(m_pMessage, "real?") ||
+		str_find_nocase(m_pMessage, "you real") ||
+		str_find_nocase(m_pMessage, "u real") ||
+		str_find_nocase(m_pMessage, "you reel") ||
+		str_find_nocase(m_pMessage, "u reel") ||
+		str_find_nocase(m_pMessage, "reel?"))
+	{
+		WriteReplyBufFormat("%s: no u", m_pMessageAuthor);
+		return true;
+	}
+
+	// when new map?
+	if(MsgLen < NameLen + 16 && (str_find_nocase(m_pMessage, "when new map?") ||
+					    str_find_nocase(m_pMessage, "when make new map") ||
+					    str_find_nocase(m_pMessage, "when new gores map") ||
+					    str_find_nocase(m_pMessage, "when new ddrace map")))
+	{
+		WriteReplyBufFormat("%s new map this summer (maybe)", m_pMessageAuthor);
+		return true;
+	}
+
+	// when new youtube?
+	if(MsgLen < NameLen + 20 && (str_find_nocase(m_pMessage, "when new yt") ||
+					    str_find_nocase(m_pMessage, "when youtub") ||
+					    str_find_nocase(m_pMessage, "when new youtub") ||
+					    str_find_nocase(m_pMessage, "new video") ||
+					    str_find_nocase(m_pMessage, "when video") ||
+					    str_find_nocase(m_pMessage, "new vidio") ||
+					    str_find_nocase(m_pMessage, "when vidio") ||
+					    str_find_nocase(m_pMessage, "new vido") ||
+					    str_find_nocase(m_pMessage, "when vido") ||
+					    str_find_nocase(m_pMessage, "new jutub") ||
+					    str_find_nocase(m_pMessage, "when jutub")))
+	{
+		WriteReplyBufFormat("%s new yt next years summer (maybe)", m_pMessageAuthor);
+		return true;
+	}
+
+	// you legend
+	if(MsgLen < NameLen + 16 && str_find_nocase(m_pMessage, "legend"))
+	{
+		WriteReplyBufFormat("you are legend %s", m_pMessageAuthor);
+		return true;
+	}
+
+	// love
+	if(str_find_nocase(m_pMessage, "<3"))
+	{
+		WriteReplyBufFormat("%s <3", m_pMessageAuthor);
+		return true;
+	}
+
+	// weeb
+	if(str_find_nocase(m_pMessage, "uwu"))
+	{
+		WriteReplyBufFormat("%s OwO", m_pMessageAuthor);
+		return true;
+	}
+	if(str_find_nocase(m_pMessage, "owo"))
+	{
+		WriteReplyBufFormat("%s UwU", m_pMessageAuthor);
+		return true;
+	}
+	// no u
+	if(MsgLen < NameLen + 8 && (str_find_nocase(m_pMessage, "no u") ||
+					   str_find_nocase(m_pMessage, "no you") ||
+					   str_find_nocase(m_pMessage, "noob") ||
+					   str_find_nocase(m_pMessage, "nob") ||
+					   str_find_nocase(m_pMessage, "nuub") ||
+					   str_find_nocase(m_pMessage, "nub") ||
+					   str_find_nocase(m_pMessage, "bad")))
+	{
+		WriteReplyBufFormat("%s no u", m_pMessageAuthor);
+		return true;
 	}
 
 	return false;
