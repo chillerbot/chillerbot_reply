@@ -38,6 +38,14 @@ public:
 
 	bool m_IsDummyConnected = false;
 
+	class
+	{
+	public:
+		int m_InpMousesens;
+		int m_ClMouseMaxDistance;
+		int m_ClDyncam;
+	} m_Config;
+
 	void *m_pUser = nullptr;
 
 	const char *(*m_pfnGetClientName)(int ClientId, void *pUser) = nullptr;
