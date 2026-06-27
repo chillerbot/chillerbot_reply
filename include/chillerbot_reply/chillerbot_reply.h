@@ -1,5 +1,7 @@
 #pragma once
 
+#include <polynet/vmath.h>
+
 #include <cstddef>
 #include <optional>
 
@@ -126,6 +128,7 @@ class CChillerBotReply
 	const char *DummyName();
 	bool IsDummyConnected() const;
 	CChillerBotReplyTee GetClient(int ClientId) const;
+	std::optional<polynet::vec2> Pos();
 
 	void WriteReplyBuf(const char *pMessage);
 	void WriteReplyBufWithPing(const char *pMessage);
@@ -172,6 +175,11 @@ class CChillerBotReply
 		also expecting an no if not
 	*/
 	bool DoYouWarMe(int NameLen, int MsgLen);
+
+	// where.cpp
+
+	// where are you
+	bool Where();
 
 public:
 	CChillerBotReplyContext m_Context;

@@ -4,6 +4,8 @@
 #include <chillerbot_reply/text_helper.h>
 #include <ddnet_base/base/str.h>
 
+#include <optional>
+
 using namespace ddnet_base;
 using namespace LangParser;
 
@@ -136,6 +138,17 @@ bool CChillerBotReply::IsDummyConnected() const
 CChillerBotReplyTee CChillerBotReply::GetClient(int ClientId) const
 {
 	return m_Context.m_pfnGetClient(ClientId, m_Context.m_pUser);
+}
+
+std::optional<polynet::vec2> CChillerBotReply::Pos()
+{
+	const CChillerBotReplyTee *pTee = &m_Context.m_aOwnTees[m_Context.m_ActiveTee];
+	if(!pTee->m_PosX.has_value() || !pTee->m_PosY.has_value())
+		return std::nullopt;
+	polynet::vec2 Pos;
+	Pos.x = pTee->m_PosX.value();
+	Pos.y = pTee->m_PosY.value();
+	return Pos;
 }
 
 void CChillerBotReply::WriteReplyBuf(const char *pMessage)
@@ -398,6 +411,9 @@ bool CChillerBotReply::Reply(const CChillerBotReplyChatMessage *pMsg, char *pRep
 	// intentionally check for being on warlist
 	// also expecting an no if not
 	if(DoYouWarMe(NameLen, MsgLen))
+		return true;
+	// where are you
+	if(Where())
 		return true;
 
 	if(!str_comp_nocase(pMsg->m_pMessage, "lib"))
