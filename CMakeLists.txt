@@ -22,7 +22,7 @@ SET(LIB_SOURCE_FILES
 add_library(chillerbot_reply ${LIB_SOURCE_FILES})
 add_subdirectory(src/external/ddnet_base)
 
-target_include_directories(chillerbot_reply PRIVATE src)
+target_include_directories(chillerbot_reply PUBLIC src)
 include_directories(include)
 
 set(DBG $<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>)
