@@ -58,6 +58,27 @@ static void TestBasic()
 	EXPECT_FALSE(IsQuestionWhy("when did what happen?"));
 }
 
+static void TestAsk()
+{
+	// question
+	EXPECT_TRUE(IsAskToAsk("Can I ask you a question?"));
+	EXPECT_TRUE(IsAskToAsk("Kann ich dich was fragen?"));
+
+	// statement
+	EXPECT_TRUE(IsAskToAsk("I have a question"));
+	EXPECT_TRUE(IsAskToAsk("Ich hab eine frage"));
+
+	// false positive
+	EXPECT_FALSE(IsAskToAsk("I wanted To ask you something, but then I did not care"));
+	EXPECT_FALSE(IsAskToAsk("I just wanted to ask how are you"));
+	EXPECT_FALSE(IsAskToAsk("I just wanted to ask"));
+
+	// false positive german
+	EXPECT_FALSE(IsAskToAsk("ich wollte dich fragen, doch dann wars mir egal"));
+	EXPECT_FALSE(IsAskToAsk("Ich wollt dich nur fragen wie es dir geht"));
+	EXPECT_FALSE(IsAskToAsk("das wollte ich dich schon immer mal fragen"));
+}
+
 static void TestStrFindOrder()
 {
 	EXPECT_TRUE(StrFindOrder("can i ask you something", 2, "can", "ask"));
@@ -82,6 +103,7 @@ static void TestStrFindIndex()
 int main()
 {
 	TestBasic();
+	TestAsk();
 	TestStrFindOrder();
 	TestStrFindIndex();
 }
