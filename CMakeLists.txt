@@ -5,22 +5,76 @@ project(chillerbot_reply)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
-SET(LIB_SOURCE_FILES
-    src/chillerbot_reply/clan.cpp
-    src/chillerbot_reply/chillerbot_reply.cpp
-    src/chillerbot_reply/check_war_others.cpp
-    src/chillerbot_reply/check_war_self.cpp
-    src/chillerbot_reply/langparser.cpp
-    src/chillerbot_reply/text_helper.cpp
-    src/chillerbot_reply/list_wars.cpp
-    src/chillerbot_reply/where.cpp
-    src/chillerbot_reply/smalltalk.cpp
-    src/chillerbot_reply/operating_system.cpp
-    src/chillerbot_reply/english_please.cpp
-    src/polynet/protocol.h
-    src/polynet/math.h
-    src/polynet/vmath.h
+function(set_glob VAR GLOBBING EXTS DIRECTORY) # ...
+  set(GLOBS)
+  foreach(ext ${EXTS})
+    list(APPEND GLOBS "${DIRECTORY}/*.${ext}")
+  endforeach()
+  file(${GLOBBING} GLOB_RESULT ${GLOBS})
+  list(SORT GLOB_RESULT)
+  set(FILES)
+  foreach(file ${ARGN})
+    list(APPEND FILES "${PROJECT_SOURCE_DIR}/${DIRECTORY}/${file}")
+  endforeach()
+
+  if(NOT FILES STREQUAL GLOB_RESULT)
+    message(AUTHOR_WARNING "${VAR} does not contain every file from directory ${DIRECTORY}")
+    set(LIST_BUT_NOT_GLOB)
+    foreach(file ${FILES})
+      if(NOT file IN_LIST GLOB_RESULT)
+        list(APPEND LIST_BUT_NOT_GLOB ${file})
+      endif()
+    endforeach()
+    if(LIST_BUT_NOT_GLOB)
+      message(AUTHOR_WARNING "Entries only present in ${VAR}: ${LIST_BUT_NOT_GLOB}")
+    endif()
+    set(GLOB_BUT_NOT_LIST)
+    foreach(file ${GLOB_RESULT})
+      if(NOT file IN_LIST FILES)
+        list(APPEND GLOB_BUT_NOT_LIST ${file})
+      endif()
+    endforeach()
+    if(GLOB_BUT_NOT_LIST)
+      message(AUTHOR_WARNING "Entries only present in ${DIRECTORY}: ${GLOB_BUT_NOT_LIST}")
+    endif()
+    if(NOT LIST_BUT_NOT_GLOB AND NOT GLOB_BUT_NOT_LIST)
+      message(AUTHOR_WARNING "${VAR} is not alphabetically sorted")
+    endif()
+  endif()
+
+  set(${VAR} ${FILES} PARENT_SCOPE)
+endfunction()
+
+function(set_src VAR GLOBBING DIRECTORY) # ...
+  set_glob(${VAR} ${GLOBBING} "c;cpp;h" ${DIRECTORY} ${ARGN})
+  set(${VAR} ${${VAR}} PARENT_SCOPE)
+endfunction()
+
+set_src(REPLY_SOURCE GLOB_RECURSE src/chillerbot_reply
+  # tidy-alphabetical-start
+  check_war_others.cpp
+  check_war_self.cpp
+  chillerbot_reply.cpp
+  clan.cpp
+  english_please.cpp
+  langparser.cpp
+  list_wars.cpp
+  operating_system.cpp
+  smalltalk.cpp
+  text_helper.cpp
+  where.cpp
+  # tidy-alphabetical-end
 )
+
+set_src(POLYNET_SOURCE GLOB_RECURSE src/polynet
+  # tidy-alphabetical-start
+  math.h
+  protocol.h
+  vmath.h
+  # tidy-alphabetical-end
+)
+
+set(LIB_SOURCE_FILES ${REPLY_SOURCE} ${POLYNET_SOURCE})
 
 add_library(chillerbot_reply ${LIB_SOURCE_FILES})
 add_subdirectory(src/external/ddnet_base)
